@@ -3,6 +3,11 @@ HELP.md
 /expenseease-iam-svc/mvnw
 /expenseease-iam-svc/mvnw.cmd
 /expenseease-iam-svc/target
+
+/expenseease-group-svc/.mvn/*
+/expenseease-group-svc/mvnw
+/expenseease-group-svc/mvnw.cmd
+/expenseease-group-svc/target
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
