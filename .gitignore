@@ -1,4 +1,5 @@
 HELP.md
+/out
 /expenseease-iam-svc/.mvn/*
 /expenseease-iam-svc/mvnw
 /expenseease-iam-svc/mvnw.cmd
