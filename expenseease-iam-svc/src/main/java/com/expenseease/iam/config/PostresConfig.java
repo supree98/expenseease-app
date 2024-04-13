@@ -16,10 +16,10 @@ public class PostresConfig {
     private final String password;
     private final String schema;
 
-    public PostresConfig(@Value("${spring.datasource.url}") String jdbcUrl,
-                         @Value("${spring.datasource.username}") String userName,
-                         @Value("${spring.datasource.password}") String password,
-                         @Value("${spring.datasource.schema}") String schema) {
+    public PostresConfig(@Value("${iap.datasource.url}") String jdbcUrl,
+                         @Value("${iap.datasource.username}") String userName,
+                         @Value("${iap.datasource.password}") String password,
+                         @Value("${iap.datasource.schema}") String schema) {
         this.jdbcUrl = jdbcUrl;
         this.userName = userName;
         this.password = password;
