@@ -5,6 +5,8 @@ import com.expenseease.iam.model.User;
 import com.expenseease.iam.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -24,6 +26,10 @@ public class UserService {
 
     public User findUser(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> findUsers() {
+        return userRepository.findAll();
     }
 
 }
