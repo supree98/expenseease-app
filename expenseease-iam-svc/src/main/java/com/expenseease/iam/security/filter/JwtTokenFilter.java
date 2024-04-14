@@ -32,9 +32,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 String email = jwtTokenProvider.getUserIdFromJWT(token);
-
-                // Load user details from the database and set the authentication
-                // You may need to implement this part based on your user details retrieval mechanism
                 User user = userService.findUser(email);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
