@@ -4,7 +4,7 @@ import com.expenseease.iam.dto.AuthenticationRequest;
 import com.expenseease.iam.dto.AuthenticationResponse;
 import com.expenseease.iam.dto.RegistrationRequest;
 import com.expenseease.iam.model.User;
-import com.expenseease.iam.service.JwtTokenProvider;
+import com.expenseease.iam.security.JwtTokenProvider;
 import com.expenseease.iam.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

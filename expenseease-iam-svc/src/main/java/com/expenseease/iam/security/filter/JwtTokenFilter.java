@@ -1,7 +1,7 @@
-package com.expenseease.iam.config;
+package com.expenseease.iam.security.filter;
 
 import com.expenseease.iam.model.User;
-import com.expenseease.iam.service.JwtTokenProvider;
+import com.expenseease.iam.security.JwtTokenProvider;
 import com.expenseease.iam.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

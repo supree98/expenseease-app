@@ -1,4 +1,4 @@
-package com.expenseease.iam.service;
+package com.expenseease.iam.security;
 
 import com.expenseease.iam.model.User;
 import io.jsonwebtoken.*;

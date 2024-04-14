@@ -1,5 +1,6 @@
-package com.expenseease.iam.config;
+package com.expenseease.iam.security;
 
+import com.expenseease.iam.security.filter.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
