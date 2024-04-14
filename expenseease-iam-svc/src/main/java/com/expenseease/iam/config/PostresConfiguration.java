@@ -9,17 +9,17 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-public class PostresConfig {
+public class PostresConfiguration {
 
     private final String jdbcUrl;
     private final String userName;
     private final String password;
     private final String schema;
 
-    public PostresConfig(@Value("${iap.datasource.url}") String jdbcUrl,
-                         @Value("${iap.datasource.username}") String userName,
-                         @Value("${iap.datasource.password}") String password,
-                         @Value("${iap.datasource.schema}") String schema) {
+    public PostresConfiguration(@Value("${iap.datasource.url}") String jdbcUrl,
+                                @Value("${iap.datasource.username}") String userName,
+                                @Value("${iap.datasource.password}") String password,
+                                @Value("${iap.datasource.schema}") String schema) {
         this.jdbcUrl = jdbcUrl;
         this.userName = userName;
         this.password = password;
