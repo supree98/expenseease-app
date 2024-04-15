@@ -2,6 +2,7 @@ package com.expenseease.iam.controller;
 
 import com.expenseease.iam.dto.AuthenticationRequest;
 import com.expenseease.iam.dto.AuthenticationResponse;
+import com.expenseease.iam.dto.ExpenseEaseResponse;
 import com.expenseease.iam.dto.RegistrationRequest;
 import com.expenseease.iam.model.User;
 import com.expenseease.iam.security.JwtTokenProvider;
@@ -12,8 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api")
@@ -30,26 +29,26 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<ExpenseEaseResponse> register(@RequestBody RegistrationRequest request) {
         userService.register(request);
-        return ResponseEntity.ok().body("Registration Completed Successfully!");
+        return ResponseEntity.ok().body(ExpenseEaseResponse.success("Registration Successful"));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<ExpenseEaseResponse> authenticate(@RequestBody AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmailId(), request.getPassword()));
             User user = userService.findUser(request.getEmailId());
             String token = jwtTokenProvider.generateToken(user);
-            return ResponseEntity.ok(new AuthenticationResponse(token));
+            return ResponseEntity.ok(ExpenseEaseResponse.success("Authentication Successful", new AuthenticationResponse(token)));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthenticationResponse(""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ExpenseEaseResponse.failure("Invalid Credentials"));
         }
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> findUsers(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok().body(userService.findUsers());
+    public ResponseEntity<ExpenseEaseResponse> findUsers(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok().body(ExpenseEaseResponse.success("Users Fetched Successfully", userService.findUsers()));
     }
 }
