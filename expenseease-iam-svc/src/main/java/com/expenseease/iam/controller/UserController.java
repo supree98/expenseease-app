@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/v1/api")
 public class UserController {
@@ -49,6 +51,6 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<ExpenseEaseResponse> findUsers(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok().body(ExpenseEaseResponse.success("Users Fetched Successfully", userService.findUsers()));
+        return ResponseEntity.ok().body(ExpenseEaseResponse.success("Users Fetched Successfully", Map.of("users", userService.findUsers())));
     }
 }
