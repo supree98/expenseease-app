@@ -1,36 +1,17 @@
-package com.expenseease.iam.security;
+package com.expenseease.group.security;
 
-import com.expenseease.iam.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 @Component
 public class JwtTokenProvider {
 
     private final String jwtSecret;
-    private final int jwtExpirationInDays;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String jwtSecret, @Value("${jwt.expiration}") int jwtExpirationInDays) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
-        this.jwtExpirationInDays = jwtExpirationInDays;
-    }
-
-    public String generateToken(User user) {
-
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + TimeUnit.DAYS.toMillis(jwtExpirationInDays));
-
-        return Jwts.builder()
-                .setSubject(user.getEmail())
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
     }
 
     public String getUserIdFromJWT(String token) {
