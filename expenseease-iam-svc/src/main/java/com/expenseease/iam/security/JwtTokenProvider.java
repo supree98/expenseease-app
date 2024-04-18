@@ -7,22 +7,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtTokenProvider {
 
     private final String jwtSecret;
-    private final int jwtExpirationInMs;
+    private final int jwtExpirationInDays;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String jwtSecret, @Value("${jwt.expiration}") int jwtExpirationInMs) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String jwtSecret, @Value("${jwt.expiration}") int jwtExpirationInDays) {
         this.jwtSecret = jwtSecret;
-        this.jwtExpirationInMs = jwtExpirationInMs;
+        this.jwtExpirationInDays = jwtExpirationInDays;
     }
 
     public String generateToken(User user) {
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+        Date expiryDate = new Date(now.getTime() + TimeUnit.DAYS.toMillis(jwtExpirationInDays));
 
         return Jwts.builder()
                 .setSubject(user.getEmail())
