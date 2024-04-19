@@ -80,7 +80,7 @@ public class GroupService {
         groupRepository.delete(group);
     }
 
-    public GroupDTO removeUserFromGroup(Long userId, Long groupId){
+    public void exitFromGroup(Long userId, Long groupId){
         Group group = groupRepository.findById(groupId).orElse(null);
         if (group == null) {
             throw new InvalidGroupException("Group doesn't exist with id: "+groupId);
@@ -91,6 +91,5 @@ public class GroupService {
         }
         group.getUsers().remove(user);
         groupRepository.save(group);
-        return Utility.mapObject(group, GroupDTO.class);
     }
 }
