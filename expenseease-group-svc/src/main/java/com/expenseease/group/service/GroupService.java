@@ -2,6 +2,8 @@ package com.expenseease.group.service;
 
 import com.expenseease.group.dto.GroupDTO;
 import com.expenseease.group.dto.UserDTO;
+import com.expenseease.group.exceptions.InvalidGroupException;
+import com.expenseease.group.exceptions.InvalidUserException;
 import com.expenseease.group.model.Group;
 import com.expenseease.group.model.User;
 import com.expenseease.group.repository.GroupRepository;
@@ -36,11 +38,11 @@ public class GroupService {
     public GroupDTO addUserToGroup(Long userId, Long groupId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
-            // Send Bad Response
+            throw new InvalidUserException("User not exist for id: "+userId);
         }
         Group group = groupRepository.findById(groupId).orElse(null);
         if (group == null) {
-            // Send Bad Response
+            throw new InvalidGroupException("Group doesn't exist with id: "+groupId);
         }
         group.getUsers().add(user);
         Group updatedGroup = groupRepository.save(group);
@@ -57,7 +59,7 @@ public class GroupService {
     public Set<GroupDTO> findGroupsForUser(Long userId) {
         User user = userRepository.findById(userId).get();
         if (user == null) {
-            // Send Bad Response
+            throw new InvalidUserException("User not exist for id: "+userId);
         }
         return user.getGroups().stream()
                 .map(g -> new GroupDTO(g.getId(), g.getName())).collect(Collectors.toSet());
@@ -66,9 +68,29 @@ public class GroupService {
     public Set<UserDTO> findUsersInGroup(Long groupId) {
         Group group = groupRepository.findById(groupId).get();
         if (group == null) {
-            // Send Bad Response
+            throw new InvalidGroupException("Group doesn't exist with id: "+groupId);
         }
         return group.getUsers().stream()
                 .map(u -> new UserDTO(u.getId(), u.getName(), u.getEmail())).collect(Collectors.toSet());
+    }
+
+    public void deleteGroup(Long groupId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(InvalidGroupException::new);
+        groupRepository.delete(group);
+    }
+
+    public GroupDTO removeUserFromGroup(Long userId, Long groupId){
+        Group group = groupRepository.findById(groupId).orElse(null);
+        if (group == null) {
+            throw new InvalidGroupException("Group doesn't exist with id: "+groupId);
+        }
+        User user = group.getUsers().stream().filter(users -> users.getId() == userId).findFirst().orElse(null);
+        if(user == null){
+            throw new InvalidUserException("User not exist for id: "+userId);
+        }
+        group.getUsers().remove(user);
+        groupRepository.save(group);
+        return Utility.mapObject(group, GroupDTO.class);
     }
 }

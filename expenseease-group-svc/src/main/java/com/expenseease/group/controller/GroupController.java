@@ -42,4 +42,16 @@ public class GroupController {
     public Set<UserDTO> findUsersInGroup(@RequestHeader("Authorization") String token, @PathVariable Long groupId) {
         return groupService.findUsersInGroup(groupId);
     }
+
+    @DeleteMapping("/groups/{groupId}")
+    public void deleteGroup(@RequestHeader("Authorization") String token,
+                            @PathVariable Long groupId){
+        groupService.deleteGroup(groupId);
+    }
+
+    @PutMapping("/groups/{userId}/{groupId}")
+    public GroupDTO exitFromGroup(@RequestHeader("Authorization") String token,
+                                  @PathVariable Long userId, @PathVariable Long groupId){
+        return groupService.removeUserFromGroup(userId, groupId);
+    }
 }
