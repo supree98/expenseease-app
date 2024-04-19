@@ -2,7 +2,12 @@ package com.expenseease.group.controller;
 
 import com.expenseease.group.dto.GroupDTO;
 import com.expenseease.group.dto.UserDTO;
+import com.expenseease.group.model.User;
 import com.expenseease.group.service.GroupService;
+import org.springframework.beans.factory.support.SecurityContextProvider;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -46,9 +51,10 @@ public class GroupController {
         groupService.deleteGroup(groupId);
     }
 
-    @PutMapping("/groups/{userId}/{groupId}")
-    public GroupDTO exitFromGroup(@RequestHeader("Authorization") String token,
-                                  @PathVariable Long userId, @PathVariable Long groupId){
-        return groupService.removeUserFromGroup(userId, groupId);
+    @PutMapping("/groups/{groupId}")
+    public GroupDTO exitFromGroup(@RequestHeader("Authorization") String token, @PathVariable Long groupId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = (User) authentication.getPrincipal();
+        return groupService.removeUserFromGroup(loggedInUser.getId(), groupId);
     }
 }
