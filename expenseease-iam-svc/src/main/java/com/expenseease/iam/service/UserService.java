@@ -4,7 +4,7 @@ import com.expenseease.iam.dto.RegistrationRequest;
 import com.expenseease.iam.dto.UserDTO;
 import com.expenseease.iam.model.User;
 import com.expenseease.iam.repository.UserRepository;
-import com.expenseease.iam.util.Utility;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,27 +14,25 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void register(RegistrationRequest request) {
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
-    }
-
-    public User findUser(String email) {
-        return userRepository.findByEmail(email);
     }
 
     public List<UserDTO> findUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(user -> Utility.mapObject(user, UserDTO.class))
+                .map(u -> new UserDTO(u.getId(), u.getName(), u.getEmail()))
                 .collect(Collectors.toList());
     }
 
