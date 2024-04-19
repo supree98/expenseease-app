@@ -26,10 +26,10 @@ public class GroupService {
         this.userRepository = userRepository;
     }
 
-    public GroupDTO createGroup(GroupDTO request) {
+    public GroupDTO createGroup(GroupDTO request, Long loggedInUserId) {
         Group group = new Group();
         group.setName(request.getName());
-        group.setCreatedBy(1l);
+        group.setCreatedBy(loggedInUserId);
         group.setCreatedOn(new Timestamp(System.currentTimeMillis()));
         Group newGroup = groupRepository.save(group);
         return Utility.mapObject(newGroup, GroupDTO.class);

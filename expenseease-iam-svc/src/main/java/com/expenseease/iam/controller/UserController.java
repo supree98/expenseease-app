@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -23,11 +24,14 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final UserDetailsService userDetailsService;
 
-    public UserController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+    public UserController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
+                          UserService userService, UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping("/register")
@@ -41,7 +45,7 @@ public class UserController {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmailId(), request.getPassword()));
-            User user = userService.findUser(request.getEmailId());
+            User user = (User) userDetailsService.loadUserByUsername(request.getEmailId());
             String token = jwtTokenProvider.generateToken(user);
             return ResponseEntity.ok(ExpenseEaseResponse.success("Authentication Successful", new AuthenticationResponse(token)));
         } catch (AuthenticationException e) {
@@ -51,6 +55,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<ExpenseEaseResponse> findUsers(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok().body(ExpenseEaseResponse.success("Users Fetched Successfully", Map.of("users", userService.findUsers())));
+        return ResponseEntity.ok()
+                .body(ExpenseEaseResponse.success("Users Fetched Successfully", Map.of("users", userService.findUsers())));
     }
 }

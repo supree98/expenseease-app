@@ -11,7 +11,7 @@
 	<groupId>com.expenseease</groupId>
 	<artifactId>expenseease-group-svc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>expenseease-group-svc</name>
+	<name>ExpenseEase Group Service</name>
 	<description>ExpenseEase Group Service for Group Management</description>
 	<properties>
 		<java.version>11</java.version>
@@ -63,11 +63,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.security</groupId>-->
-<!--			<artifactId>spring-security-test</artifactId>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
