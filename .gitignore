@@ -1,6 +1,7 @@
 HELP.md
 /out/*
 /out
+
 /expenseease-iam-svc/.mvn/*
 /expenseease-iam-svc/mvnw
 /expenseease-iam-svc/mvnw.cmd
@@ -10,6 +11,12 @@ HELP.md
 /expenseease-group-svc/mvnw
 /expenseease-group-svc/mvnw.cmd
 /expenseease-group-svc/target
+
+/expenseease-split-svc/.mvn/*
+/expenseease-split-svc/mvnw
+/expenseease-split-svc/mvnw.cmd
+/expenseease-split-svc/target
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
