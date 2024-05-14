@@ -48,3 +48,26 @@ build/
 
 ### VS Code ###
 .vscode/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+/expenseease-ui-svc/node_modules
+/expenseease-ui-svc/dist
+/expenseease-ui-svc/dist-ssr
+/expenseease-ui-svc/*.local
+
+# Editor directories and files
+/expenseease-ui-svc/.vscode/*
+/expenseease-ui-svc/!.vscode/extensions.json
+/expenseease-ui-svc/.DS_Store
+/expenseease-ui-svc/*.suo
+/expenseease-ui-svc/*.ntvs*
+/expenseease-ui-svc/*.njsproj
+/expenseease-ui-svc/*.sln
+/expenseease-ui-svc/*.sw?
