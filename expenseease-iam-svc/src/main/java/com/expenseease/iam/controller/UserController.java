@@ -45,8 +45,8 @@ public class UserController {
     public ResponseEntity<ExpenseEaseResponse> authenticate(@RequestBody AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmailId(), request.getPassword()));
-            User user = (User) userDetailsService.loadUserByUsername(request.getEmailId());
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            User user = (User) userDetailsService.loadUserByUsername(request.getEmail());
             String token = jwtTokenProvider.generateToken(user);
             return ResponseEntity.ok(ExpenseEaseResponse.success("Authentication Successful", new AuthenticationResponse(token)));
         } catch (AuthenticationException e) {
