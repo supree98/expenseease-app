@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/api")
-@CrossOrigin(origins = "*")
 public class SplitController {
 
     private final SplitService splitService;

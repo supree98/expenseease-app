@@ -15,7 +15,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/v1/api")
-@CrossOrigin(origins = "*")
 public class GroupController {
 
     private final GroupService groupService;
@@ -39,9 +38,11 @@ public class GroupController {
         return ResponseEntity.ok(ExpenseEaseResponse.success("User added to the group successfully.", Map.of("group", updatedGroup)));
     }
 
-    @GetMapping("users/{userId}/groups")
-    public ResponseEntity<ExpenseEaseResponse> findGroupsForUser(@RequestHeader("Authorization") String token, @PathVariable Long userId) {
-        Set<GroupDTO> groups = groupService.findGroupsForUser(userId);
+    @GetMapping("/groups")
+    public ResponseEntity<ExpenseEaseResponse> findGroupsForUser(@RequestHeader("Authorization") String token) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = (User) authentication.getPrincipal();
+        Set<GroupDTO> groups = groupService.findGroupsForUser(loggedInUser.getId());
         return ResponseEntity.ok(ExpenseEaseResponse.success("Groups fetched successfully.", Map.of("groups", groups)));
     }
 
